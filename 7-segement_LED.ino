@@ -29,46 +29,6 @@ void Print_time(int s)
        matrix.writeDisplay();
   }
 
-int Print_Time_s(int s)
-{
-  int print_tim=0;
-  int m = s/60;
-  int rs = (s%60)-1;
-  for(int i=s-1;i>=0;i--)
-  {
-//    int s=9;
-//    while(s>=0)
-//    {
-       print_tim = (m*100)+rs;
-       Serial.println(rs);
-       int buff = print_tim;
-       matrix.writeDigitNum(4,(buff%10));
-       buff = buff/10;
-       matrix.writeDigitNum(3,(buff%10));
-       buff = buff/10;
-       matrix.writeDigitNum(1,(buff%10));
-       buff = buff/10;
-       matrix.writeDigitNum(0,(buff%10));
-       matrix.drawColon(1);
-       matrix.writeDisplay();
-      A = millis();
-      while(((B-A)/1000)!=1)
-      {
-        B = millis();
-        }
-        rs--;
-        if(rs<0)
-        {
-          m--;
-          rs=59;
-          }
-
-        
-     // }
-    }
-    
-   return(1); 
-  }
 
 void setup() {
 //#ifndef _AVR_ATtiny85_
