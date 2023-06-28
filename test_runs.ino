@@ -58,13 +58,14 @@ void End_buzzer()
 {
   for(int i =0;i<5;i++)
   {
-    //matrix.drawColon(1);
-    //matrix.writeDisplay();
+    matrix.clear();
+    matrix.drawColon(1);
+    matrix.writeDisplay();
     tone(buzzer,440);
     delay(500);
                       
-    //matrix.drawColon(0);
-    //matrix.writeDisplay();
+    matrix.drawColon(0);
+    matrix.writeDisplay();
     noTone(buzzer);
     delay(500);
    }
@@ -125,6 +126,8 @@ void start_timer()
 {
   set_time();
   start_print();
+  matrix.println(" End");
+  matrix.writeDisplay();
 }
 
                                               //Resets the timer to default values
@@ -133,14 +136,30 @@ void reset_timer()
 {
   time_seconds = 0;
   terminate_flag = 0;
+
+  matrix.print("HELO");
+  matrix.writeDisplay();
+  delay(100);
 }
 
 void loop() {
   reset_timer();
   start_timer();
-//  int a;
-//  a = (1000*btn_plus)+(100*btn_minus)+(10*btn_set)+(1*btn_pause_play);
-//  Serial.println(a);
+  //matrix.clear();
+  matrix.writeDigitAscii(0,69);
+  matrix.writeDigitAscii(1,110);
+  matrix.writeDigitAscii(3,100);
+  matrix.writeDisplay();
+  while(digitalRead(pause_play)==1)
+  {
+    Serial.println("Enteredddd");
+    if(digitalRead(pause_play)==0)
+    {
+      delay(250);
+      break;
+    }
+    
+    }
   
 
 }
