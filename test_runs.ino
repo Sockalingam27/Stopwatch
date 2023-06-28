@@ -31,6 +31,25 @@ void setup() {
 
 }
 
+                                               //A function to print the seconds in minutes in the LCD
+
+void Print_time(int s)
+{
+  int m = s/60;
+  int rs = (s%60);
+  int print_tim = (m*100)+rs;
+  int buff = print_tim;
+       matrix.writeDigitNum(4,(buff%10));
+       buff = buff/10;
+       matrix.writeDigitNum(3,(buff%10));
+       buff = buff/10;
+       matrix.writeDigitNum(1,(buff%10));
+       buff = buff/10;
+       matrix.writeDigitNum(0,(buff%10));
+       matrix.drawColon(1);
+       matrix.writeDisplay();
+}
+  
                                               //Time adjusting function
                                               
 void set_time()
@@ -40,12 +59,14 @@ void set_time()
     if(digitalRead(plus) == 0)
     {
       time_seconds += 15;
+      Print_time(time_seconds);
       delay(150);
       }
     
     if(digitalRead(minus) == 0)
     {
       time_seconds -= 15;
+      Print_time(time_seconds);
       delay(150);
       }
       Serial.println(time_seconds);
@@ -58,7 +79,7 @@ void End_buzzer()
 {
   for(int i =0;i<5;i++)
   {
-    matrix.clear();
+   
     matrix.drawColon(1);
     matrix.writeDisplay();
     tone(buzzer,440);
@@ -85,6 +106,7 @@ void start_print()
       while(digitalRead(pause_play)==1);
       }
     Serial.println(i);
+    Print_time(i);
     A = millis();
     B = millis();
     while(((B-A)/1000)!=1)
@@ -142,17 +164,17 @@ void reset_timer()
   delay(100);
 }
 
-void loop() {
-  reset_timer();
-  start_timer();
-  //matrix.clear();
+                                              //Restart function - when the restart button is pressed fn restarts
+
+void call_restart()
+{
+  matrix.clear();
   matrix.writeDigitAscii(0,69);
   matrix.writeDigitAscii(1,110);
   matrix.writeDigitAscii(3,100);
   matrix.writeDisplay();
   while(digitalRead(pause_play)==1)
   {
-    Serial.println("Enteredddd");
     if(digitalRead(pause_play)==0)
     {
       delay(250);
@@ -160,6 +182,12 @@ void loop() {
     }
     
     }
-  
+  }
 
+                                              //Loop function to run on and on
+
+void loop() {
+  reset_timer();
+  start_timer();
+  call_restart();
 }
