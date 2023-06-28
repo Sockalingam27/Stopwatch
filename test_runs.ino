@@ -52,7 +52,7 @@ void set_time()
     }
 }
 
-                                              //The ed function to show the termination
+                                              //The end function to show the termination
 
 void End_buzzer()
 {
@@ -119,13 +119,24 @@ void start_print()
     }
 }
 
+                                              //Main engine of program
+
 void start_timer()
 {
   set_time();
   start_print();
-  }
+}
+
+                                              //Resets the timer to default values
+
+void reset_timer()
+{
+  time_seconds = 0;
+  terminate_flag = 0;
+}
 
 void loop() {
+  reset_timer();
   start_timer();
 //  int a;
 //  a = (1000*btn_plus)+(100*btn_minus)+(10*btn_set)+(1*btn_pause_play);
