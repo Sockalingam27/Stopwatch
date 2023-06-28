@@ -10,11 +10,12 @@ int plus = 7;
 int minus = 12;
 int set = 8;
 int pause_play = 2;
-bool btn_plus,btn_minus,btn_set,btn_pause_play;
+int buzzer = 9;
 
 int time_seconds = 0;
 unsigned long A;
 unsigned long B;
+bool terminate_flag = 0;
 
                                               //Setup function
 
@@ -26,6 +27,7 @@ void setup() {
   pinMode(set, INPUT_PULLUP); 
   pinMode(minus, INPUT_PULLUP);
   pinMode(pause_play, INPUT_PULLUP);
+  pinMode(buzzer,OUTPUT);
 
 }
 
@@ -50,6 +52,25 @@ void set_time()
     }
 }
 
+                                              //The ed function to show the termination
+
+void End_buzzer()
+{
+  for(int i =0;i<5;i++)
+  {
+    //matrix.drawColon(1);
+    //matrix.writeDisplay();
+    tone(buzzer,440);
+    delay(500);
+                      
+    //matrix.drawColon(0);
+    //matrix.writeDisplay();
+    noTone(buzzer);
+    delay(500);
+   }
+}
+
+
                                               //Function to start printing time
   
 void start_print()
@@ -70,7 +91,7 @@ void start_print()
       if(digitalRead(pause_play)==0)
       {
         delay(250);
-        Serial.println("just paused");
+
         bool btn_val = digitalRead(set);
         while(btn_val==1)
         {
@@ -80,25 +101,28 @@ void start_print()
           {
             delay(250);
             i = -1;
+            terminate_flag = 1;
             break;
             }
           }
           delay(250);
-          Serial.println("left pause");
         A = millis();
         B = millis();
       }
       
     }
   }
+
+  if(terminate_flag == 0)
+  {
+    End_buzzer();
+    }
 }
 
 void start_timer()
 {
   set_time();
-  Serial.println("outta loop");
   start_print();
-  Serial.println("outta loop 2");
   }
 
 void loop() {
